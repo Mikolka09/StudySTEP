@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include<iostream>
 
@@ -10,10 +10,10 @@ private:
 	class Abonent
 	{
 	private:
-		char* FIO = { 0 };//ФИО
-		int phoneH = 0;//домашний телефон
-		int phoneW = 0;//рабочий телефон
-		int phoneM = 0;//мобильный телефон
+		char* FIO = { 0 };//Р¤РРћ
+		int phoneH = 0;//РґРѕРјР°С€РЅРёР№ С‚РµР»РµС„РѕРЅ
+		int phoneW = 0;//СЂР°Р±РѕС‡РёР№ С‚РµР»РµС„РѕРЅ
+		int phoneM = 0;//РјРѕР±РёР»СЊРЅС‹Р№ С‚РµР»РµС„РѕРЅ
 	public:
 		Abonent() {};
 
@@ -41,12 +41,12 @@ private:
 
 		~Abonent()
 		{
-
+			
 		}
 	};
 
-	Abonent* phBook;//телефонная книга(массив абонентов)
-	int sizeAb = 0;//количесвто абонентов
+	Abonent* phBook;//С‚РµР»РµС„РѕРЅРЅР°СЏ РєРЅРёРіР°(РјР°СЃСЃРёРІ Р°Р±РѕРЅРµРЅС‚РѕРІ)
+	int sizeAb = 0;//РєРѕР»РёС‡РµСЃРІС‚Рѕ Р°Р±РѕРЅРµРЅС‚РѕРІ
 
 public:
 	//PhoneBook();
@@ -74,9 +74,9 @@ void PhoneBook::addAbonent(Abonent*& p, int& size, Abonent abon)
 void PhoneBook::addPhoneBook()
 {
 	Abonent abon;
-	cout << "Создание абонента в телефонной книге: " << endl;
+	cout << "РЎРѕР·РґР°РЅРёРµ Р°Р±РѕРЅРµРЅС‚Р° РІ С‚РµР»РµС„РѕРЅРЅРѕР№ РєРЅРёРіРµ: " << endl;
 	char buff[80];
-	cout << "Введите ФИО: ";
+	cout << "Р’РІРµРґРёС‚Рµ Р¤РРћ: ";
 	cin.getline(buff, 80);
 	int lenFIO = strlen(buff);
 	char *f = new char[lenFIO + 1];
@@ -84,13 +84,13 @@ void PhoneBook::addPhoneBook()
 	strcpy(f, buff);
 	abon.setFIO(f);
 	int pH, pW, pM;
-	cout << "Введите домашний номер: ";
+	cout << "Р’РІРµРґРёС‚Рµ РґРѕРјР°С€РЅРёР№ РЅРѕРјРµСЂ: ";
 	cin >> pH;
 	abon.setpH(pH);
-	cout << "Введите рабочий номер: ";
+	cout << "Р’РІРµРґРёС‚Рµ СЂР°Р±РѕС‡РёР№ РЅРѕРјРµСЂ: ";
 	cin >> pW;
 	abon.setpW(pW);
-	cout << "Введите мобильный номер: ";
+	cout << "Р’РІРµРґРёС‚Рµ РјРѕР±РёР»СЊРЅС‹Р№ РЅРѕРјРµСЂ: ";
 	cin >> pM;
 	abon.setpM(pM);
 	addAbonent(phBook, sizeAb, abon);

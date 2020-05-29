@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include<iostream>
 
@@ -7,9 +7,9 @@ using namespace std;
 class Drob
 {
 private:
-	int m_ch;//чеслитель
-	int m_zn;//знаменатель
-	int m_c;//целая часть
+	int m_ch;//С‡РµСЃР»РёС‚РµР»СЊ
+	int m_zn;//Р·РЅР°РјРµРЅР°С‚РµР»СЊ
+	int m_c;//С†РµР»Р°СЏ С‡Р°СЃС‚СЊ
 public:
 	Drob();
 	Drob(int ch, int zn, int c = 0);
