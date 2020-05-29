@@ -8,6 +8,7 @@ using namespace std;
 
 int main()
 {
+	setlocale(0, "");
 
 	PhoneBook PB;
 	PB.addPhoneBook();

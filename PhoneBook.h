@@ -10,45 +10,48 @@ private:
 	class Abonent
 	{
 	private:
-		char* FIO;//ФИО
-		int phoneH;//домашний телефон
-		int phoneW;//рабочий телефон
-		int phoneM;//мобильный телефон
+		char* FIO = { 0 };//ФИО
+		int phoneH = 0;//домашний телефон
+		int phoneW = 0;//рабочий телефон
+		int phoneM = 0;//мобильный телефон
 	public:
 		Abonent() {};
-		Abonent(char *FIO, int pH, int pW, int pM)
+
+		Abonent(char* f, int pH, int pW, int pM)
 		{
-			int lenFIO = strlen(FIO);
-			this->FIO = new char[lenFIO + 1];
-			strcpy(this->FIO, FIO);
-			this->phoneH = pH;
-			this->phoneW = pW;
-			this->phoneM = pM;
+			/*int lenFIO = strlen(fio);
+			FIO = new char[lenFIO + 1];
+			FIO[lenFIO - 1] = '\0';
+			strcpy(FIO, fio);*/
+			FIO = f;
+			phoneH = pH;
+			phoneW = pW;
+			phoneM = pM;
 		}
 
-		char setFIO(char* FIO) { this->FIO = FIO; };
-		int setpH(int pH) { this->phoneH = pH; };
-		int setpW(int pW) { this->phoneW = pW; };
-		int setpM(int pM) { this->phoneM = pM; };
+		void setFIO(char* fio) { FIO = fio; };
+		void setpH(int pH) { phoneH = pH; };
+		void setpW(int pW) { phoneW = pW; };
+		void setpM(int pM) { phoneM = pM; };
 
 		void print()
 		{
-			cout << this->FIO << "  " << this->phoneH << "  " << this->phoneW << "  " << this->phoneM << endl;
+			cout << FIO << "  " << phoneH << "  " << phoneW << "  " << phoneM << endl;
 		}
 
 		~Abonent()
 		{
-			delete[]this->FIO;
+
 		}
 	};
-	PhoneBook *phBook=nullptr;//телефонная книга(массив абонентов)
-	Abonent abon;//абонент
+
+	Abonent* phBook;//телефонная книга(массив абонентов)
 	int sizeAb = 0;//количесвто абонентов
 
 public:
-	PhoneBook();
+	//PhoneBook();
 	void addPhoneBook();
-	void addElemArray(PhoneBook*& p, int& size, Abonent elem);
+	void addAbonent(Abonent*& p, int& size, Abonent abon);
 	void print();
 	~PhoneBook();
 
@@ -56,18 +59,12 @@ public:
 
 };
 
-PhoneBook::PhoneBook()
-{
-}
 
-void PhoneBook::addElemArray(PhoneBook*& p, int& size, Abonent elem)
+void PhoneBook::addAbonent(Abonent*& p, int& size, Abonent abon)
 {
-	PhoneBook* t = new PhoneBook[size + 1];
-	for (size_t i = 0; i < size; i++)
-	{
-		t[i] = p[i];
-	}
-	t[size] = elem;
+	Abonent* t = new Abonent[size + 1];
+	memcpy(t, p, size * sizeof(int));
+	t[size] = abon;
 	delete[]p;
 	p = t;
 	size++;
@@ -81,8 +78,11 @@ void PhoneBook::addPhoneBook()
 	char buff[80];
 	cout << "Введите ФИО: ";
 	cin.getline(buff, 80);
-	cin.ignore();
-	abon.setFIO(buff);
+	int lenFIO = strlen(buff);
+	char *f = new char[lenFIO + 1];
+	f[lenFIO - 1] = '\0';
+	strcpy(f, buff);
+	abon.setFIO(f);
 	int pH, pW, pM;
 	cout << "Введите домашний номер: ";
 	cin >> pH;
@@ -93,9 +93,7 @@ void PhoneBook::addPhoneBook()
 	cout << "Введите мобильный номер: ";
 	cin >> pM;
 	abon.setpM(pM);
-	addElemArray(phBook, this->sizeAb, abon);
-	
-
+	addAbonent(phBook, sizeAb, abon);
 }
 
 inline void PhoneBook::print()
@@ -110,5 +108,5 @@ inline void PhoneBook::print()
 
 PhoneBook::~PhoneBook()
 {
-	delete[]this->phBook;
+	delete[]phBook;
 }
