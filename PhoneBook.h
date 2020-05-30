@@ -3,6 +3,8 @@
 #include<iostream>
 #include<iomanip>
 #include<string.h>
+#include<fstream>
+#include<Windows.h>
 
 using namespace std;
 
@@ -12,11 +14,14 @@ private:
 	class Abonent
 	{
 	private:
-		char* FIO;//ФИО
+
 		int phoneH;//домашний телефон
 		int phoneW;//рабочий телефон
 		int phoneM;//мобильный телефон
 	public:
+
+		char* FIO;//ФИО
+
 		Abonent() {};
 
 		Abonent(char* f, int pH, int pW, int pM)
@@ -34,29 +39,44 @@ private:
 		void setpW(int pW) { phoneW = pW; };
 		void setpM(int pM) { phoneM = pM; };
 
-		void print()
+		template<class T>
+		void print(T&stream)
 		{
-			cout << setw(12) << FIO << setw(12) << phoneH << setw(12) << phoneW
-				<< setw(12) << phoneM << endl;
+			stream << setw(12) << FIO << " |" << setw(12) << phoneH << " |" << setw(12) << phoneW << " |"
+				<< setw(12) << phoneM << " |" << endl;
 		}
 
 		~Abonent()
 		{
-
+			
 		}
 	};
 
-	Abonent* phBook;//телефонная книга(массив абонентов)
+	
 	int sizeAb = 0;//количесвто абонентов
 
 public:
 
+	Abonent* phBook;//телефонная книга(массив абонентов)
+	
 	void menuPhBook();
-	void shapkaBook();
-	void addPhoneBook();
+
+	template<class T>
+	void shapkaBook(T& stream);
+
+	void loadPhBook();
+	void sortPhBook(Abonent *&phB, int size);
+	int findFIO(Abonent* phB, int size, char* fio);
+	void addAbonetBook();
+	void dellAbonetBook();
 	void addAbonent(Abonent*& p, int& size, Abonent abon);
+	void dellAbonent(Abonent*& p, int& size, int pos);
 	void searchFIO();
-	void print();
+	void savePhBook();
+	void savePhBookFile();
+
+	template<class T>
+	void print(T& stream);
 
 	~PhoneBook();
 };
@@ -75,6 +95,22 @@ void PhoneBook::addAbonent(Abonent*& p, int& size, Abonent abon)
 	size++;
 }
 
+inline void PhoneBook::dellAbonent(Abonent*& p, int& size, int pos)
+{
+	Abonent* t = new Abonent[size - 1];
+	for (size_t i = 0; i < pos; i++)
+	{
+		t[i] = p[i];
+	}
+	for (size_t i = pos + 1 ; i < size; i++)
+	{
+		t[i - 1] = p[i];
+	}
+	delete[]p;
+	p = t;
+	size--;
+}
+
 inline void PhoneBook::searchFIO()
 {
 	system("cls");
@@ -90,22 +126,17 @@ inline void PhoneBook::searchFIO()
 		buff[0] = char(buff[0]) - 32;
 	int lenFIO = strlen(buff);
 	char* src = new char[lenFIO + 1];
-	src[lenFIO - 1] = '\0';
 	strcpy(src, buff);
-	string S(52, '-');
+	string S(64, '-');
 	bool flag = true;
-	shapkaBook();
-	for (size_t i = 0; i < sizeAb; i++)
+	shapkaBook(cout);
+	if (findFIO(phBook, sizeAb, src) != -1)
 	{
-		if (strcmp(phBook[i].getFIO(), src) == 0)
-		{
-			cout << setw(4) << i + 1;
-			phBook[i].print();
-			flag = false;
-		}
+		cout << setw(4) << findFIO(phBook, sizeAb, src) + 1;
+		phBook[findFIO(phBook, sizeAb, src)].print(cout);
+		cout << S << endl;
 	}
-	cout << S << endl;
-	if (flag)
+	if (findFIO(phBook, sizeAb, src) == -1)
 	{
 		system("cls");
 		cout << "\n\n\n" << endl;
@@ -115,9 +146,27 @@ inline void PhoneBook::searchFIO()
 	system("pause");
 }
 
+inline void PhoneBook::savePhBook()
+{
+	ofstream fout("PhBook.bin", ios::binary | ios::out);
+	if (fout.is_open())
+	{
+		fout.write((char*)&sizeAb, sizeof(sizeAb));
+		for (size_t i = 0; i < sizeAb; i++)
+		{
+			fout.write((char*)&phBook[i], sizeof(Abonent));
+			int lenFIO = strlen(phBook[i].FIO) + 1;
+			fout.write((char*)&lenFIO, sizeof(int));
+			fout.write((char*)phBook[i].FIO, lenFIO);
+		}
+	}
+	fout.close();
+}
+
 
 inline void PhoneBook::menuPhBook()
 {
+	loadPhBook();
 	do
 	{
 		system("cls");
@@ -144,19 +193,20 @@ inline void PhoneBook::menuPhBook()
 		switch (var)
 		{
 		case 1:
-			addPhoneBook();
+			addAbonetBook();
 			break;
 		case 2:
-
+			dellAbonetBook();
 			break;
 		case 3:
 			searchFIO();
 			break;
 		case 4:
-			print();
+			print(cout);
+			system("pause");
 			break;
 		case 5:
-
+			savePhBookFile();
 			break;
 		case 6:
 			exit(0);
@@ -166,19 +216,67 @@ inline void PhoneBook::menuPhBook()
 
 }
 
-inline void PhoneBook::shapkaBook()
+template<class T>
+inline void PhoneBook::shapkaBook(T&stream)
 {
-	string S(52, '-');
-	cout << endl << endl;
-	cout << "\t\tТЕЛЕФОННАЯ КНИГА" << endl << endl;
-	cout << S << endl;
-	cout << setw(4) << " Номер" << setw(10) << "ФИО" << setw(12) << "Домашний" << setw(12) << "Рабочий"
-		<< setw(12) << "Мобильный" << endl;
-	cout << S;
-	cout << endl;
+	string S(64, '-');
+	stream << endl << endl;
+	stream << "\t\t\tТЕЛЕФОННАЯ КНИГА" << endl << endl;
+	stream << S << endl;
+	stream << setw(4) << " Номер" <<" |" << setw(12) << "ФИО" << " |" << setw(12) << "Домашний" << " |"
+		<< setw(12) << "Рабочий" << " |" << setw(12) << "Мобильный" << " |" << endl;
+	stream << S;
+	stream << endl;
 }
 
-void PhoneBook::addPhoneBook()
+inline void PhoneBook::loadPhBook()
+{
+	ifstream fin("PhBook.bin", ios::binary | ios::in);
+	if (fin.is_open())
+	{
+		fin.read((char*)&sizeAb, sizeof(sizeAb));
+		phBook = new Abonent[sizeAb];
+		PhoneBook b;
+		for (size_t i = 0; i < sizeAb; i++)
+		{
+			fin.read((char*)&phBook[i], sizeof(Abonent));
+			int lenFIO;
+			fin.read((char*)&lenFIO, sizeof(int));
+			phBook[i].FIO = new char[lenFIO + 1];
+			fin.read((char*)phBook[i].FIO, lenFIO);
+		}
+		
+		
+	}
+	fin.close();
+}
+
+inline void PhoneBook::sortPhBook(Abonent *&phB, int size)
+{
+	for (size_t i = 0; i < size - 1; i++)
+	{
+		int max = i;
+		for (size_t j = i + 1; j < size; j++)
+		{
+			if (strcmp(phB[j].FIO, phB[max].FIO) == -1)
+				max = j;
+				
+		}
+		swap(phB[i], phB[max]);
+	}
+}
+
+inline int PhoneBook::findFIO(Abonent* phB, int size, char* fio)
+{
+	for (size_t i = 0; i < size; i++)
+	{
+		if (strcmp(phBook[i].getFIO(), fio) == 0)
+			return i;
+	}
+	return -1;
+}
+
+void PhoneBook::addAbonetBook()
 {
 	system("cls");
 	cout << endl;
@@ -211,21 +309,64 @@ void PhoneBook::addPhoneBook()
 	cout << "\tАбонент добавлен!" << endl;
 	cout << endl;
 	system("pause");
+	savePhBook();
 }
 
-inline void PhoneBook::print()
+inline void PhoneBook::dellAbonetBook()
 {
 	system("cls");
-	string S(52, '-');
-	shapkaBook();
+	cout << endl;
+	cout << "\tУдаление абонента: " << endl;
+	cout << "\t------------------" << endl;
+	cout << endl;
+	cin.ignore();
+	char buff[80];
+	cout << "\tВведите ФИО абонента: ";
+	cin.getline(buff, 80);
+	if (islower(buff[0]))
+		buff[0] = char(buff[0]) - 32;
+	int lenFIO = strlen(buff);
+	char* src = new char[lenFIO + 1];
+	src[lenFIO - 1] = '\0';
+	strcpy(src, buff);
+	int pos = findFIO(phBook, sizeAb, src);
+	dellAbonent(phBook, sizeAb, pos);
+	cout << endl;
+	cout << "\t---------------" << endl;
+	cout << "\tАбонент удален!" << endl;
+	cout << endl;
+	system("pause");
+	savePhBook();
+}
+
+inline void PhoneBook::savePhBookFile()
+{
+	ofstream fout("PhoneBook.txt", ios::out);
+	if (fout.is_open())
+	{
+		print(fout);
+	}
+	fout.close();
+	system("cls");
+	cout << "\n\n\n\n";
+	cout << setw(40) << "ТЕЛЕФОННАЯ КНИГА СОХРАНЕНА В ФАЙЛ!" << endl;
+	Sleep(2000);
+}
+
+template<class T>
+inline void PhoneBook::print(T&stream)
+{
+	system("cls");
+	sortPhBook(phBook, sizeAb);
+	string S(64, '-');
+	shapkaBook(stream);
 	for (size_t i = 0; i < sizeAb; i++)
 	{
-		cout << setw(4) << i + 1;
-		phBook[i].print();
+		stream << setw(4) << i + 1 <<"   |";
+		phBook[i].print(stream);
 	}
-	cout << S;
-	cout << endl << endl;
-	system("pause");
+	stream << S;
+	stream << endl << endl;
 }
 
 

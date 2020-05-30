@@ -144,6 +144,9 @@
     <ClInclude Include="Drob.h" />
     <ClInclude Include="PhoneBook.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="PhBook.bin" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
