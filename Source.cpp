@@ -3,6 +3,7 @@
 #include"Drob.h"
 #include"PhoneBook.h"
 
+
 using namespace std;
 
 
@@ -11,8 +12,8 @@ int main()
 	setlocale(0, "");
 
 	PhoneBook PB;
-	PB.addPhoneBook();
-	PB.print();
+	PB.menuPhBook();
+	
 	
 
 
