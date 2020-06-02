@@ -18,12 +18,18 @@
     <ClCompile Include="Source.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="MyString.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Drob.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="PhoneBook.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="MyString.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

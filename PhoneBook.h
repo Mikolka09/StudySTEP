@@ -236,7 +236,6 @@ inline void PhoneBook::loadPhBook()
 	{
 		fin.read((char*)&sizeAb, sizeof(sizeAb));
 		phBook = new Abonent[sizeAb];
-		PhoneBook b;
 		for (size_t i = 0; i < sizeAb; i++)
 		{
 			fin.read((char*)&phBook[i], sizeof(Abonent));

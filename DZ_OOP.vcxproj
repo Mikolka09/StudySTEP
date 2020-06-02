@@ -138,10 +138,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MyString.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Drob.h" />
+    <ClInclude Include="MyString.h" />
     <ClInclude Include="PhoneBook.h" />
   </ItemGroup>
   <ItemGroup>
