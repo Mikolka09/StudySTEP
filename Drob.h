@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#include<iostream>
-
 using namespace std;
 
 class Drob
@@ -12,53 +10,74 @@ private:
 	int m_c;//целая часть
 public:
 	Drob();
-	Drob(int ch, int zn, int c = 0);
+	Drob(int ch, int zn, int c);
 
 	Drob FSD(int ch, int zn, int c);
-	Drob sumDrob(Drob d1, Drob d2);
-	Drob dellDrob(Drob d1, Drob d2);
-	Drob subDrob(Drob d1, Drob d2);
-	Drob multDrob(Drob d1, Drob d2);
-	bool moreDrob(Drob d1, Drob d2);
-	bool lessDrob(Drob d1, Drob d2);
-	bool equalDrob(Drob d1, Drob d2);
-	bool inequalDrob(Drob d1, Drob d2);
+	Drob sumDrob(Drob d2);
+	Drob dellDrob(Drob d2);
+	Drob subDrob(Drob d2);
+	Drob multDrob(Drob d2);
+	bool moreDrob( Drob d2);
+	bool lessDrob(Drob d2);
+	bool equalDrob(Drob d2);
+	bool inequalDrob(Drob d2);
+	Drob operator+(Drob d2);
+	Drob operator-(Drob d2);
+	Drob operator*(Drob d2);
+	Drob operator/(Drob d2);
+	bool operator>(Drob d2);
+	bool operator<(Drob d2);
+	bool operator==(Drob d2);
+	bool operator!=(Drob d2);
 
-	void print();
+	void print() const;
 
 };
 
-Drob::Drob(){}
+Drob::Drob()
+{
+	m_ch = 0;
+	m_zn = 1;
+	m_c = 0;
+}
 
 Drob::Drob(int ch, int zn, int c)
 {
-	if (ch != 0 && zn != 0 && ch < 0 && zn > 0)
+	if (zn == 0)
 	{
-		m_ch = abs(ch);
-		m_zn = zn;
-		m_c = -1 * c;
+		cout << "Ошибка!!! Знаменатель не может равнятся нулю!!!" << endl;
+		exit (0);
 	}
 	else
 	{
-		if (ch != 0 && zn != 0 && ch < 0 && zn < 0)
+		if (ch != 0 && zn != 0 && ch < 0 && zn > 0)
 		{
 			m_ch = abs(ch);
-			m_zn = abs(zn);
-			m_c = c;
+			m_zn = zn;
+			m_c = -1 * c;
 		}
 		else
 		{
-			if (ch != 0 && zn != 0 && ch > 0 && zn < 0)
+			if (ch != 0 && zn != 0 && ch < 0 && zn < 0)
 			{
-				m_ch = ch;
+				m_ch = abs(ch);
 				m_zn = abs(zn);
-				m_c = -1 * c;
+				m_c = c;
 			}
 			else
 			{
-				m_ch = ch;
-				m_zn = zn;
-				m_c = c;
+				if (ch != 0 && zn != 0 && ch > 0 && zn < 0)
+				{
+					m_ch = ch;
+					m_zn = abs(zn);
+					m_c = -1 * c;
+				}
+				else
+				{
+					m_ch = ch;
+					m_zn = zn;
+					m_c = c;
+				}
 			}
 		}
 	}
@@ -98,32 +117,32 @@ Drob Drob::FSD(int ch, int zn, int c)
 	return fsd;
 }
 
-Drob Drob::sumDrob(Drob d1, Drob d2)
+Drob Drob::sumDrob(Drob d2)
 {
 	Drob sum;
-	sum.m_c = d1.m_c + d2.m_c;
-	sum.m_ch = d1.m_ch * d2.m_zn + d1.m_zn * d2.m_ch;
-	sum.m_zn = d1.m_zn * d2.m_zn;
+	sum.m_c = m_c + d2.m_c;
+	sum.m_ch = m_ch * d2.m_zn + m_zn * d2.m_ch;
+	sum.m_zn = m_zn * d2.m_zn;
 	sum = sum.FSD(sum.m_ch, sum.m_zn, sum.m_c);
 	return sum;
 }
 
-Drob Drob::dellDrob(Drob d1, Drob d2)
+Drob Drob::dellDrob(Drob d2)
 {
 	Drob del;
 	del.m_c = 0;
-	del.m_ch = (d1.m_c * d1.m_zn + d1.m_ch) * d2.m_zn;
-	del.m_zn = d1.m_zn * (d2.m_c * d2.m_zn + d2.m_ch);
+	del.m_ch = (m_c * m_zn + m_ch) * d2.m_zn;
+	del.m_zn = m_zn * (d2.m_c * d2.m_zn + d2.m_ch);
 	del = del.FSD(del.m_ch, del.m_zn, del.m_c);
 	return del;
 }
 
-Drob Drob::subDrob(Drob d1, Drob d2)
+Drob Drob::subDrob(Drob d2)
 {
 	Drob sub;
 	sub.m_c = 0;
-	sub.m_ch = ((d1.m_c * d1.m_zn + d1.m_ch) * d2.m_zn) - ((d2.m_c * d2.m_zn + d2.m_ch) * d1.m_zn);
-	sub.m_zn = d1.m_zn * d2.m_zn;
+	sub.m_ch = ((m_c * m_zn + m_ch) * d2.m_zn) - ((d2.m_c * d2.m_zn + d2.m_ch) * m_zn);
+	sub.m_zn = m_zn * d2.m_zn;
 	if (sub.m_ch == 0)
 	{
 		return sub;
@@ -132,37 +151,105 @@ Drob Drob::subDrob(Drob d1, Drob d2)
 	return sub;
 }
 
-Drob Drob::multDrob(Drob d1, Drob d2)
+Drob Drob::multDrob(Drob d2)
 {
 	Drob mult;
 	mult.m_c = 0;
-	mult.m_ch = (d1.m_c * d1.m_zn + d1.m_ch) * (d2.m_c * d2.m_zn + d2.m_ch);
-	mult.m_zn = d1.m_zn * d2.m_zn;
+	mult.m_ch = (m_c * m_zn + m_ch) * (d2.m_c * d2.m_zn + d2.m_ch);
+	mult.m_zn = m_zn * d2.m_zn;
 	mult = mult.FSD(mult.m_ch, mult.m_zn, mult.m_c);
 	return mult;
 }
 
-bool Drob::moreDrob(Drob d1, Drob d2)
+bool Drob::moreDrob(Drob d2)
 {
-	return d1.m_c + (double)d1.m_ch / d1.m_zn > d2.m_c + (double)d2.m_ch / d2.m_zn;
+	cout << boolalpha;
+	return m_c + (double)m_ch / m_zn > d2.m_c + (double)d2.m_ch / d2.m_zn;
 }
 
-bool Drob::lessDrob(Drob d1, Drob d2)
+bool Drob::lessDrob(Drob d2)
 {
-	return d1.m_c + (double)d1.m_ch / d1.m_zn < d2.m_c + (double)d2.m_ch / d2.m_zn;
+	cout << boolalpha;
+	return m_c + (double)m_ch / m_zn < d2.m_c + (double)d2.m_ch / d2.m_zn;
 }
 
-bool Drob::equalDrob(Drob d1, Drob d2)
+bool Drob::equalDrob(Drob d2)
 {
-	return d1.m_c + (double)d1.m_ch / d1.m_zn == d2.m_c + (double)d2.m_ch / d2.m_zn;
+	cout << boolalpha;
+	return m_c + (double)m_ch / m_zn == d2.m_c + (double)d2.m_ch / d2.m_zn;
 }
 
-bool Drob::inequalDrob(Drob d1, Drob d2)
+bool Drob::inequalDrob(Drob d2)
 {
-	return d1.m_c + (double)d1.m_ch / d1.m_zn != d2.m_c + (double)d2.m_ch / d2.m_zn;
+	cout << boolalpha;
+	return m_c + (double)m_ch / m_zn != d2.m_c + (double)d2.m_ch / d2.m_zn;
 }
 
-void Drob::print()
+inline Drob Drob::operator+(Drob d2)
+{
+	Drob sum;
+	sum.m_c = m_c + d2.m_c;
+	sum.m_ch = m_ch * d2.m_zn + m_zn * d2.m_ch;
+	sum.m_zn = m_zn * d2.m_zn;
+	sum = sum.FSD(sum.m_ch, sum.m_zn, sum.m_c);
+	return sum;
+}
+
+inline Drob Drob::operator-(Drob d2)
+{
+	Drob sum;
+	sum.m_c = m_c + d2.m_c;
+	sum.m_ch = m_ch * d2.m_zn + m_zn * d2.m_ch;
+	sum.m_zn = m_zn * d2.m_zn;
+	sum = sum.FSD(sum.m_ch, sum.m_zn, sum.m_c);
+	return sum;
+}
+
+inline Drob Drob::operator*(Drob d2)
+{
+	Drob mult;
+	mult.m_c = 0;
+	mult.m_ch = (m_c * m_zn + m_ch) * (d2.m_c * d2.m_zn + d2.m_ch);
+	mult.m_zn = m_zn * d2.m_zn;
+	mult = mult.FSD(mult.m_ch, mult.m_zn, mult.m_c);
+	return mult;
+}
+
+inline Drob Drob::operator/(Drob d2)
+{
+	Drob del;
+	del.m_c = 0;
+	del.m_ch = (m_c * m_zn + m_ch) * d2.m_zn;
+	del.m_zn = m_zn * (d2.m_c * d2.m_zn + d2.m_ch);
+	del = del.FSD(del.m_ch, del.m_zn, del.m_c);
+	return del;
+}
+
+inline bool Drob::operator>(Drob d2)
+{
+	cout << boolalpha;
+	return m_c + (double)m_ch / m_zn > d2.m_c + (double)d2.m_ch / d2.m_zn;
+}
+
+inline bool Drob::operator<(Drob d2)
+{
+	cout << boolalpha;
+	return m_c + (double)m_ch / m_zn < d2.m_c + (double)d2.m_ch / d2.m_zn;
+}
+
+inline bool Drob::operator==(Drob d2)
+{
+	cout << boolalpha;
+	return m_c + (double)m_ch / m_zn == d2.m_c + (double)d2.m_ch / d2.m_zn;
+}
+
+inline bool Drob::operator!=(Drob d2)
+{
+	cout << boolalpha;
+	return m_c + (double)m_ch / m_zn != d2.m_c + (double)d2.m_ch / d2.m_zn;
+}
+
+void Drob::print() const
 {
 	if (m_ch == 0 && m_c == 0)
 		cout << "0" << endl;
