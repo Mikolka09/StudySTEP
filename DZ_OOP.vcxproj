@@ -144,6 +144,7 @@
     <ClInclude Include="Drob.h" />
     <ClInclude Include="MyString.h" />
     <ClInclude Include="PhoneBook.h" />
+    <ClInclude Include="Time.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PhBook.bin" />

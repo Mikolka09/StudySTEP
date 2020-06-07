@@ -3,6 +3,7 @@
 #include"Drob.h"
 #include"PhoneBook.h"
 #include"MyString.h"
+#include"Time.h"
 
 
 using namespace std;
@@ -12,17 +13,19 @@ int main()
 {
 	setlocale(0, "");
 
-	Drob a(2, 2, 1);
-	Drob b(1, 3, 1);
-	Drob c;
-	cout << (a > b) << endl;
-	//c.print();
+	//Time t1(20, 100, 200);
+	//Time t2(10, 200, 500);
+	Time t, t3;
+	t3 = t(10, 15, 20, 15, 13, 25);
+	//cout << (t1 != t2) << endl;
+	t3.printTo12();
+	t3.printTo24();
 
-	
-	
-	
-	
-	
+
+
+
+
+
 
 
 }
