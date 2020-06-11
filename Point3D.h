@@ -23,3 +23,8 @@ public:
 };
 
 
+/*Point3D p(1, 5, 3);
+	Vector3D v(1, 3, 6);
+	cout << p << endl;
+	p.moveByVector(v);
+	cout << p << endl;*/
