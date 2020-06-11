@@ -138,13 +138,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Point3D.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Drob.h" />
     <ClInclude Include="MyString.h" />
     <ClInclude Include="PhoneBook.h" />
+    <ClInclude Include="Point3D.h" />
     <ClInclude Include="Time.h" />
+    <ClInclude Include="Vector3D.h" />
+    <ClInclude Include="_3D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PhBook.bin" />
