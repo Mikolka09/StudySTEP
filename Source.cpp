@@ -6,6 +6,7 @@
 #include"Time.h"
 #include"Point3D.h"
 #include"Vector3D.h"
+#include"Array2D.h"
 
 
 
@@ -17,10 +18,15 @@ int main()
 {
 	setlocale(0, "");
 
-	Drob a(1, 2, 3);
-	Drob b(1, 2, 3);
-	Drob c = a + b;
-	c.print();
+	
+	Array2D<int> arr1(2,2);
+	arr1.setRandom();
+	Array2D<int> arr2(2, 2);
+	arr2.setRandom();
+	Array2D<int> arr3(2, 2);
+	arr3 = arr1 + arr2;
+	arr3.print();
+
 
 
 

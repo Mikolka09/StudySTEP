@@ -143,6 +143,7 @@
     <ClCompile Include="Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Array2D.h" />
     <ClInclude Include="Drob.h" />
     <ClInclude Include="MyString.h" />
     <ClInclude Include="PhoneBook.h" />
