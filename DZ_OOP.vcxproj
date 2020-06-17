@@ -145,9 +145,12 @@
   <ItemGroup>
     <ClInclude Include="Array2D.h" />
     <ClInclude Include="Drob.h" />
+    <ClInclude Include="MyData.h" />
     <ClInclude Include="MyString.h" />
     <ClInclude Include="PhoneBook.h" />
     <ClInclude Include="Point3D.h" />
+    <ClInclude Include="Queue.h" />
+    <ClInclude Include="Stack.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Vector3D.h" />
     <ClInclude Include="_3D.h" />

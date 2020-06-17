@@ -6,7 +6,10 @@
 #include"Time.h"
 #include"Point3D.h"
 #include"Vector3D.h"
-#include"Array2D.h"
+//#include"Array2D.h"
+#include"MyData.h"
+#include"Queue.h"
+#include"Stack.h"
 
 
 
@@ -19,36 +22,78 @@ int main()
 	setlocale(0, "");
 	srand(time(NULL));
 
-	Array2D<int> arr1(2, 2);
-	//arr1.setRandom();
-	cin >> arr1;
-	//arr1.print();
-	cout << arr1 << endl;
+	//GAME "BALLS"
+	//1, 2, 3, 4, 5 - цвета шариков
+
+	DynamicStack<int, 100> game;
+	int nballs;   //количество шариков в игре, задается игроком
+	int color;    //цвет шарика
+	int ncolor;   //количество цветов
 	cout << endl;
-	Sleep(500);
-	Array2D<double> arr2(2, 2);
-	arr2.setRandom();
-	cout << arr2 << endl;
+	cout << "\t\t\tGAME 'BALLS'" << endl;
+	cout << "\t\t\t------------\n" << endl;
+	cout << " Введите количество задействованных шариков в игре, но не более 100: ";
+	cin >> nballs;
 	cout << endl;
-	/*Array2D<int> arr3(2, 2);
-	arr3 = arr1 - arr2;
-	arr3.print();*/
+	cout << " Введите количество цветов, но не более 5: ";
+	cin >> ncolor;
+	//заполняем рандомно все цвета шариков
+	for (size_t i = 0; i < nballs; i++)
+	{
+		color = rand() % ncolor + 1;
+		game.push(color);
+	}
 	cout << endl;
-	/*Array2D<int> arr4(2, 2);
-	arr4 = arr1/arr2;
-	arr4.print();*/
-	//double det = arr2.determinal(arr2);
-	//cout << "Det = " << det << endl;
-	//arr2.invers(arr2);
-	//cout << endl;
-	//arr2.print();
-	//double det2= arr2.determinal(arr2);
-	//cout << "Det2 = " << det2 << endl;
-	//Array2D<double> arr4(2, 2);
-	//arr4 = arr1/arr2;
-	//arr4.print();
-	cout <<" Max = "<< arr1.maxElem() << endl;
-	cout << " Min = " << arr2.minElem() << endl;
+	cout << " Рандомно сгенерированные шарики: ";
+	game.print();
+	DynamicStack<int, 100> temp;
+	do
+	{
+		if (temp.getSize() == 0)
+			temp.push(game.pop());
+		if (game.getSize() != 0)
+		{
+			int tmp = temp.pop();
+			int gmp = game.pop();
+			if (gmp != tmp)
+			{
+				temp.push(tmp);
+				temp.push(gmp);
+			}
+			else
+			{
+				temp.push(tmp);
+				temp.push(gmp);
+								
+				if (game.getSize() != 0)
+				{
+					tmp = temp.pop();
+					gmp = game.pop();
+					if (gmp == tmp)
+					{
+						temp.pop();
+					}
+					else 
+					{
+						temp.push(tmp);
+						temp.push(gmp);
+					}
+				}
+			}
+		}
+	} while (game.getSize());
+	int delballs = nballs - temp.getSize();  //количесвто удаленных шариков
+	cout << endl << endl;;
+	cout << " Остаток шариков на печать: ";
+	temp.print();
+	cout << endl;
+	cout << " Количество удаленных шариков - " << delballs << endl;
+
+
+
+
+
+
 
 
 
