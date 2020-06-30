@@ -15,7 +15,7 @@ public:
 	int getSize();
 	bool ifEmpty();
 	bool isFull();
-	T pick();
+	T peek();
 	void print();
 	void clear();
 
@@ -85,7 +85,7 @@ inline bool Queue<T, size>::isFull()
 }
 
 template<class T, int size>
-inline T Queue<T, size>::pick()
+inline T Queue<T, size>::peek()
 {
 	return first->value;
 }
@@ -136,7 +136,7 @@ public:
 	int getSize();
 	bool isEmpty();
 	bool isFull();
-	T pick();
+	T peek();
 	void print();
 	void clear();
 
@@ -180,7 +180,7 @@ inline void RingQueue<T, size>::pop()
 }
 
 template<class T, int size>
-inline T RingQueue<T, size>::pick()
+inline T RingQueue<T, size>::peek()
 {
 	return first->value;
 }
@@ -249,7 +249,7 @@ public:
 	int getSize();
 	bool isEmpty();
 	bool isFull();
-	T pick();
+	T peek();
 	void print();
 	void clear();
 };
@@ -257,7 +257,7 @@ public:
 template<class T, int size>
 inline PrioretyQueue<T, size>::~PrioretyQueue()
 {
-	//clear();
+	clear();
 }
 
 template<class T, int size>
@@ -274,10 +274,10 @@ inline void PrioretyQueue<T, size>::push(T val, Priorety pre)
 		}
 		else
 		{
-			MyData<T> *temp = new MyData<T>;
+			MyData<T>* temp = new MyData<T>;
 			temp->value = val;
 			temp->pre = pre;
-			MyData<T> *num = first;
+			MyData<T>* num = first;
 			if (last->pre >= pre)
 			{
 				last->next = temp;
@@ -306,6 +306,44 @@ inline void PrioretyQueue<T, size>::push(T val, Priorety pre)
 }
 
 template<class T, int size>
+inline T PrioretyQueue<T, size>::pop()
+{
+	if (length > 0)
+	{
+		MyData<T>* temp = first;
+		first = first->next;
+		T val = temp->value;
+		delete temp;
+		length--;
+		return val;
+	}
+}
+
+template<class T, int size>
+inline int PrioretyQueue<T, size>::getSize()
+{
+	return length;
+}
+
+template<class T, int size>
+inline bool PrioretyQueue<T, size>::isEmpty()
+{
+	return length == 0;
+}
+
+template<class T, int size>
+inline bool PrioretyQueue<T, size>::isFull()
+{
+	return length == size;
+}
+
+template<class T, int size>
+inline T PrioretyQueue<T, size>::peek()
+{
+	return first->value;
+}
+
+template<class T, int size>
 inline void PrioretyQueue<T, size>::print()
 {
 	if (length == 0)
@@ -313,12 +351,23 @@ inline void PrioretyQueue<T, size>::print()
 		cout << "Queue empty" << endl;
 		return;
 	}
-	MyData<T> *temp = first;
+	MyData<T>* temp = first;
 	while (temp)
 	{
-		cout << temp->value <<"("<<temp->pre<<")"<<" ";
+		cout << temp->value << "(" << temp->pre << ")" << " ";
 		temp = temp->next;
 	}
 	cout << endl;
 
+}
+
+template<class T, int size>
+inline void PrioretyQueue<T, size>::clear()
+{
+	while (length)
+	{
+		pop();
+		length--;
+	}
+	first = last = nullptr;
 }

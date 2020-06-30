@@ -10,6 +10,7 @@
 #include"MyData.h"
 #include"Queue.h"
 #include"Stack.h"
+#include <string>
 
 
 
@@ -22,72 +23,78 @@ int main()
 	setlocale(0, "");
 	srand(time(NULL));
 
-	//GAME "BALLS"
-	//1, 2, 3, 4, 5 - цвета шариков
+	//МОДЕЛЬ "ОСТАНОВКА МАРШРУТНЫХ ТАКСИ"
 
-	DynamicStack<int, 100> game;
-	int nballs;   //количество шариков в игре, задается игроком
-	int color;    //цвет шарика
-	int ncolor;   //количество цветов
-	cout << endl;
-	cout << "\t\t\tGAME 'BALLS'" << endl;
-	cout << "\t\t\t------------\n" << endl;
-	cout << " Введите количество задействованных шариков в игре, но не более 100: ";
-	cin >> nballs;
-	cout << endl;
-	cout << " Введите количество цветов, но не более 5: ";
-	cin >> ncolor;
-	//заполняем рандомно все цвета шариков
-	for (size_t i = 0; i < nballs; i++)
+	//Ввод данных
+	Queue<int, 20> och_people;//простая очередь людей на остановке
+	RingQueue<int, 20> marsh_bus;//циклическая очередь маршруток
+	int max_mest(30);//максимальное кол-во мест в маршрутке
+	int time_people;
+	cout << "Введите среднее время между появлениями пассажиров на остановке в мин.: ";
+	cin >> time_people;
+	int time_bus;
+	cout << "Введите среднее время между появлениями маршруток на остановке в мин.: ";
+	cin >> time_bus;
+	int type_ost;
+	cout << "Введите тип остановки (конечная - 0 или нет - 1): ";
+	cin >> type_ost;
+	int n_people;
+	cout << "Введите требуемое количество одновременно находящихся людей на остановке: ";
+	cin >> n_people;
+	int n_mest;//количесвто свободных мест в маршрутке
+	n_mest = rand() % 9 + 1;
+
+	//Нужно определить
+	int tSr_people = 0;//среднее время пребывания человека на остановке
+
+	//Решение поставленной модели
+	int i = 60 * 24;//кол-во минут в сутках
+	while (i)
 	{
-		color = rand() % ncolor + 1;
-		game.push(color);
-	}
-	cout << endl;
-	cout << " Рандомно сгенерированные шарики: ";
-	game.print();
-	DynamicStack<int, 100> temp;
-	do
-	{
-		if (temp.getSize() == 0)
-			temp.push(game.pop());
-		if (game.getSize() != 0)
+		if (i % time_people == 0)
 		{
-			int tmp = temp.pop();
-			int gmp = game.pop();
-			if (gmp != tmp)
+			och_people.push(1);
+		}
+		if (i % time_bus == 0 && type_ost == 1)
+		{
+			while (n_mest)
 			{
-				temp.push(tmp);
-				temp.push(gmp);
-			}
-			else
-			{
-				temp.push(tmp);
-				temp.push(gmp);
-								
-				if (game.getSize() != 0)
-				{
-					tmp = temp.pop();
-					gmp = game.pop();
-					if (gmp == tmp)
-					{
-						temp.pop();
-					}
-					else 
-					{
-						temp.push(tmp);
-						temp.push(gmp);
-					}
-				}
+				och_people.pop();
+				if (och_people.ifEmpty())
+					break;
 			}
 		}
-	} while (game.getSize());
-	int delballs = nballs - temp.getSize();  //количесвто удаленных шариков
-	cout << endl << endl;;
-	cout << " Остаток шариков на печать: ";
-	temp.print();
+		if (i % time_bus == 0 && type_ost == 0)
+		{
+			while (max_mest)
+			{
+				och_people.pop();
+				if (och_people.ifEmpty())
+					break;
+			}
+		}
+		if (och_people.getSize() > n_people)
+		{
+			marsh_bus.push(1);
+			time_bus--;
+		}
+		i--;
+	}
 	cout << endl;
-	cout << " Количество удаленных шариков - " << delballs << endl;
+	cout <<"Среднее время пребывания человека на остановке: ";
+	cout << och_people.getSize();
+	cout << " мин." << endl;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
