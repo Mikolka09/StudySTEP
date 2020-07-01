@@ -26,64 +26,86 @@ int main()
 	//МОДЕЛЬ "ОСТАНОВКА МАРШРУТНЫХ ТАКСИ"
 
 	//Ввод данных
-	Queue<int, 20> och_people;//простая очередь людей на остановке
-	RingQueue<int, 20> marsh_bus;//циклическая очередь маршруток
+	Queue<int, 100> och_people;//простая очередь людей на остановке
+	RingQueue<int, 50> marsh_bus;//циклическая очередь маршруток
 	int max_mest(30);//максимальное кол-во мест в маршрутке
 	int time_people;
-	cout << "Введите среднее время между появлениями пассажиров на остановке в мин.: ";
+	cout << "\t\tМОДЕЛЬ 'ОСТАНОВКА МАРШРУТНЫХ ТАКСИ'" << endl;
+	cout << "\t\t-----------------------------------" << endl << endl;
+	cout << "  Введите среднее время между появлениями пассажиров на остановке в мин.: ";
 	cin >> time_people;
 	int time_bus;
-	cout << "Введите среднее время между появлениями маршруток на остановке в мин.: ";
+	cout << endl;
+	cout << "  Введите среднее время между появлениями маршруток на остановке в мин.: ";
 	cin >> time_bus;
 	int type_ost;
-	cout << "Введите тип остановки (конечная - 0 или нет - 1): ";
+	cout << endl;
+	cout << "  Введите тип остановки (конечная - 0 или нет - 1): ";
 	cin >> type_ost;
 	int n_people;
-	cout << "Введите требуемое количество одновременно находящихся людей на остановке: ";
+	cout << endl;
+	cout << "  Введите требуемое количество одновременно находящихся людей на остановке: ";
 	cin >> n_people;
+	cout << endl;
 	int n_mest;//количесвто свободных мест в маршрутке
-	n_mest = rand() % 9 + 1;
 
 	//Нужно определить
 	int tSr_people = 0;//среднее время пребывания человека на остановке
 
 	//Решение поставленной модели
-	int i = 60 * 24;//кол-во минут в сутках
-	while (i)
+	int time_sut = 60 * 0.5;//кол-во минут в сутках
+	int count_p = 0;//кол-во перевезенных с одной остановки людей
+	while (time_sut)
 	{
-		if (i % time_people == 0)
+		if (time_sut % time_people == 0)
 		{
 			och_people.push(1);
 		}
-		if (i % time_bus == 0 && type_ost == 1)
+		if (time_bus != 0 && time_sut % time_bus == 0 && type_ost == 1)
 		{
-			while (n_mest)
+			marsh_bus.push(1);
+			n_mest = rand() % 9 + 1;
+			while (n_mest != 0)
 			{
-				och_people.pop();
 				if (och_people.ifEmpty())
 					break;
+				else
+				{
+					och_people.pop();
+					count_p++;
+				}
+				n_mest--;
 			}
 		}
-		if (i % time_bus == 0 && type_ost == 0)
+		else if (time_bus != 0 && time_sut % time_bus == 0 && type_ost == 0)
 		{
-			while (max_mest)
+			while (max_mest != 0)
 			{
-				och_people.pop();
 				if (och_people.ifEmpty())
 					break;
+				else
+				{
+					och_people.pop();
+					count_p++;
+				}
+				max_mest--;
 			}
 		}
 		if (och_people.getSize() > n_people)
 		{
-			marsh_bus.push(1);
 			time_bus--;
 		}
-		i--;
+		time_sut--;
 	}
 	cout << endl;
-	cout <<"Среднее время пребывания человека на остановке: ";
-	cout << och_people.getSize();
-	cout << " мин." << endl;
+	cout << "\t\t\tРАСЧЕТНЫЕ ПОКАЗАТЕЛИ" << endl;
+	cout << "\t\t\t--------------------" << endl << endl;
+	cout << "  Количество автобусов забравших пассажиров за сутки с одной остановки: " << marsh_bus.getSize() << endl << endl;
+	cout << "  Количество перевезенных людей за сутки: " << count_p << endl;
+	time_sut = 60 * 0.5;
+	tSr_people = time_sut / count_p;
+	cout << endl;
+	cout << "  Среднее время пребывания человека на остановке: " << tSr_people << " мин." << endl << endl;
 
 
 
