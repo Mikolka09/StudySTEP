@@ -23,6 +23,8 @@ int main()
 	setlocale(0, "");
 	srand(time(NULL));
 
+#pragma region Marshrut
+
 	//МОДЕЛЬ "ОСТАНОВКА МАРШРУТНЫХ ТАКСИ"
 
 	//Ввод данных
@@ -108,7 +110,7 @@ int main()
 	cout << endl;
 	cout << "  Среднее время пребывания человека на остановке: " << tSr_people << " мин." << endl << endl;
 
-
+#pragma endregion
 
 
 
