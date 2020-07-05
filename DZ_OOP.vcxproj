@@ -143,8 +143,11 @@
     <ClCompile Include="Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animal.h" />
     <ClInclude Include="Array2D.h" />
     <ClInclude Include="Drob.h" />
+    <ClInclude Include="HomeAnimal.h" />
+    <ClInclude Include="Inheritance.h" />
     <ClInclude Include="MyData.h" />
     <ClInclude Include="MyString.h" />
     <ClInclude Include="PhoneBook.h" />
