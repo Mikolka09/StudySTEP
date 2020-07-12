@@ -2,7 +2,7 @@
 #include<iostream>
 #include"Drob.h"
 #include"PhoneBook.h"
-#include"MyString.h"
+//#include"MyString.h"
 #include"Time.h"
 #include"Point3D.h"
 #include"Vector3D.h"
@@ -12,7 +12,11 @@
 #include"Stack.h"
 #include <string>
 #include"HomeAnimal.h"
-
+#include <vector>
+#include <algorithm>
+#include <list>
+#include <map>
+#include <string>
 
 
 using namespace std;
@@ -22,7 +26,7 @@ using namespace std;
 int main()
 {
 	setlocale(0, "");
-	srand(time(NULL));
+	srand(time(0));
 
 #pragma region Marshrut
 
@@ -113,26 +117,26 @@ int main()
 
 #pragma endregion
 
-	Dog D("Рокки", 3, "M", "Такса", "Короткошерстная", "Черная", "Охотничья");
-	HomeAnimal& rD = D;
-	cout << rD.getName() << endl;
-	D.print();
-	D.voice();
-	cout << endl;
+	
 
-	Cat С("Том", 3, "M", "Шотландская", "Короткошерстная", "Серая", "Тупая");
-	HomeAnimal& rС = С;
-	cout << rС.getName() << endl;
-	С.print();
-	С.voice();
-	cout << endl;
 
-	Popuga P("Порки", 3, "M", "Какаду", "Перья", "Белая", "Есть", "Есть", "ДA");
-	HomeAnimal& rP = P;
-	cout << rP.getName() << endl;
-	P.print();
-	P.voice();
-	cout << endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
