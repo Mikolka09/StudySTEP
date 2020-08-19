@@ -19,6 +19,8 @@
 #include <string>
 #include<map>
 #include<fstream>
+#include<functional>
+#include <Windows.h>
 
 
 using namespace std;
@@ -120,64 +122,69 @@ int main()
 #pragma endregion
 
 	
-	map<string, int> m;
-	string st;
-	ifstream in("text.txt", ios::in);
-	if (in.is_open())
-	{
-		int n = 0;
-		while (in >> st)
-		{
-			if (m.size() == 0)
-				m.insert(make_pair(st, n + 1));
-			else
-			{
-				auto it = m.find(st);
-				if (it !=m.end())
-				{
-					it->second++;
-				}
-				else
-					m.insert(make_pair(st, n + 1));
-			}
+	string pas = "admin7007";
+	hash<string> cod;
+	int pas2 = cod(pas);
+	cout << pas2 << endl;
+	//cout << cod(pas) << endl;
+	//map<string, int> m;
+	//string st;
+	//ifstream in("text.txt", ios::in);
+	//if (in.is_open())
+	//{
+	//	int n = 0;
+	//	while (in >> st)
+	//	{
+	//		if (m.size() == 0)
+	//			m.insert(make_pair(st, n + 1));
+	//		else
+	//		{
+	//			auto it = m.find(st);
+	//			if (it !=m.end())
+	//			{
+	//				it->second++;
+	//			}
+	//			else
+	//				m.insert(make_pair(st, n + 1));
+	//		}
 
-		}
-		in.close();
-	}
-	cout << endl;
-	string S(60, '-');
-	cout << S << endl;
-	cout << "Статистика частотного словаря обо всех словах" << endl;
-	cout << S << endl;
-	for (auto& x : m)
-		cout << x.first << " - " << x.second << endl;
-	cout << endl;
-	cout << S << endl;
-	cout << "Статистика наиболее часто встречающегося слова" << endl;
-	cout << S << endl;
-	int i, j;
-	auto it = m.begin();
-	auto it_max = it;
-	for (it; it != m.end(); ++it)
-	{
-		if (it->second > it_max->second)
-			it_max = it;
-	}
-	cout << it_max->first << " - " << it_max->second << endl;
-	cout << S << endl;
-	//Запись результатов в фаил
-	ofstream out("result.txt", ios::out);
-	out << S << endl;
-	out << "Статистика частотного словаря обо всех словах" << endl;
-	out << S << endl;
-	for (auto& x : m)
-		out << x.first << " - " << x.second << endl;
-	out << S << endl;
-	out << "Статистика наиболее часто встречающегося слова" << endl;
-	out << S << endl;
-	out << it_max->first << " - " << it_max->second << endl;
-	cout << S << endl;
-	out.close();
+	//	}
+	//	in.close();
+	//}
+	//cout << endl;
+	//string S(60, '-');
+	//cout << S << endl;
+	//cout << "Статистика частотного словаря обо всех словах" << endl;
+	//cout << S << endl;
+	//for (auto& x : m)
+	//	cout << x.first << " - " << x.second << endl;
+	//cout << endl;
+	//cout << S << endl;
+	//cout << "Статистика наиболее часто встречающегося слова" << endl;
+	//cout << S << endl;
+	//int i, j;
+	//auto it = m.begin();
+	//auto it_max = it;
+	//for (it; it != m.end(); ++it)
+	//{
+	//	if (it->second > it_max->second)
+	//		it_max = it;
+	//}
+	//cout << it_max->first << " - " << it_max->second << endl;
+	//cout << S << endl;
+	////Запись результатов в фаил
+	//ofstream out("result.txt", ios::out);
+	//out << S << endl;
+	//out << "Статистика частотного словаря обо всех словах" << endl;
+	//out << S << endl;
+	//for (auto& x : m)
+	//	out << x.first << " - " << x.second << endl;
+	//out << S << endl;
+	//out << "Статистика наиболее часто встречающегося слова" << endl;
+	//out << S << endl;
+	//out << it_max->first << " - " << it_max->second << endl;
+	//cout << S << endl;
+	//out.close();
 	
 
 
